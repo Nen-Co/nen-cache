@@ -15,6 +15,9 @@ pub const CacheData = @import("cache/enhanced_kv_cache.zig").CacheData;
 pub const CacheMetadata = @import("cache/enhanced_kv_cache.zig").CacheMetadata;
 pub const CompressionAlgorithm = @import("cache/enhanced_kv_cache.zig").CompressionAlgorithm;
 
+// Export memory pool types
+pub const MemoryPoolStats = @import("memory/static_pools.zig").MemoryPoolStats;
+
 // Export memory pools
 pub const StaticCache = @import("memory/static_cache.zig").StaticCache;
 pub const StaticKVEntry = @import("memory/static_cache.zig").StaticKVEntry;
@@ -34,19 +37,27 @@ pub const NenJSON = nen_json;
 
 // Main function for CLI usage
 pub fn main() !void {
-    const stdout = std.io.getStdOut().writer();
+    const cli = @import("cli.zig").CLI;
     
-    try stdout.writeAll("🚀 NenCache: The LMCache Killer\n");
-    try stdout.writeAll("===============================\n\n");
+    // Get command line arguments
+    const args = std.process.argsAlloc(std.heap.page_allocator) catch |err| {
+        std.debug.print("Failed to get command line arguments: {}\n", .{err});
+        std.process.exit(1);
+    };
+    defer std.heap.page_allocator.free(args);
     
-    try stdout.writeAll("Available commands:\n");
-    try stdout.writeAll("  test        - Run unit tests\n");
-    try stdout.writeAll("  perf        - Run performance tests\n");
-    try stdout.writeAll("  bench       - Run benchmarks\n");
-    try stdout.writeAll("  lmcache-bench - Compare with LMCache\n");
-    try stdout.writeAll("  basic-example - Run basic usage example\n\n");
+    // Skip the program name
+    const cli_args = if (args.len > 1) args[1..] else args[0..0];
     
-    try stdout.writeAll("For more information, see: https://github.com/Nen-Co/nencache\n");
+    // Initialize CLI
+    var cli_instance = cli.init(std.heap.page_allocator);
+    defer cli_instance.deinit();
+    
+    // Run CLI
+    cli_instance.run(cli_args) catch |err| {
+        std.debug.print("CLI error: {}\n", .{err});
+        std.process.exit(1);
+    };
 }
 
 // Test the enhanced KV cache

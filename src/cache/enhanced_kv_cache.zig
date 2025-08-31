@@ -13,8 +13,8 @@ const StaticCacheTier = @import("../memory/static_cache.zig").StaticCacheTier;
 const MemoryPoolManager = @import("../memory/static_pools.zig").MemoryPoolManager;
 const StaticPoolEntry = @import("../memory/static_pools.zig").StaticPoolEntry;
 
-// Import Nen ecosystem libraries
-const nen_io = @import("nen_io");
+// Nen ecosystem libraries will be passed as parameters
+// const nen_io = @import("nen_io"); // Will be passed from main module
 // const nen_json = @import("nen_json"); // Temporarily disabled due to structural issues
 
 pub const EnhancedKVCache = struct {
@@ -408,8 +408,8 @@ pub const CompressionEngine = struct {
     // Helper functions using nen-io
     fn compressWithBatching(self: *CompressionEngine, data: []const u8) ![]const u8 {
         _ = self; // Use self parameter to avoid warning
-        // Use nen-io memory batch for efficient operations
-        _ = nen_io.batching.MemoryBatch.init();
+        // Memory batch operations will be implemented later
+        // _ = nen_io.batching.MemoryBatch.init();
         
         // For now, return data as-is (compression will be implemented later)
         // The nen-io batching provides efficient memory management
@@ -418,8 +418,8 @@ pub const CompressionEngine = struct {
     
     fn decompressWithBatching(self: *CompressionEngine, data: []const u8) ![]const u8 {
         _ = self; // Use self parameter to avoid warning
-        // Use nen-io memory batch for efficient operations
-        _ = nen_io.batching.MemoryBatch.init();
+        // Memory batch operations will be implemented later
+        // _ = nen_io.batching.MemoryBatch.init();
         
         // For now, return data as-is (decompression will be implemented later)
         return data;
@@ -464,14 +464,14 @@ pub const P2PManager = struct {
     
     // Network sharing using nen-io
     fn shareViaNetwork(self: *P2PManager, instance_id: []const u8, cache_data: CacheData) !void {
-        // Use nen-io network batching for efficient data transfer
-        var network_batch = nen_io.batching.NetworkBatch.init();
+        // Network batching will be implemented later
+        // var network_batch = nen_io.batching.NetworkBatch.init();
         
-        // Serialize cache data to JSON for transmission
-        const json_data = try self.serializeCacheData(cache_data);
+        // Serialize cache data for transmission
+        _ = try self.serializeCacheData(cache_data);
         
-        // Add to network batch for efficient transmission
-        try network_batch.addRequest(json_data, 1); // Priority 1
+        // Network batch operations will be implemented later
+        // try network_batch.addRequest(json_data, 1); // Priority 1
         
         // For now, just log the sharing (actual network transmission will be implemented later)
         // The nen-io batching provides efficient network operation management
@@ -480,22 +480,22 @@ pub const P2PManager = struct {
     
     // Serialize cache data as simple text (JSON will be implemented later)
     fn serializeCacheData(self: *P2PManager, cache_data: CacheData) ![]const u8 {
-        // Create simple text representation
-        const allocator = self.allocator;
-        var result = std.ArrayList(u8).init(allocator);
-        defer result.deinit();
+        _ = self; // Use self parameter to avoid warning
+        // Create simple text representation using static buffer to avoid allocation
+        var buffer: [512]u8 = undefined;
+        var stream = std.io.fixedBufferStream(&buffer);
+        const writer = stream.writer();
         
-        const writer = result.writer();
-        try writer.print("key:{s},value:{s},timestamp:{d},access_count:{d},compression:{s},tier:{s}", .{
+        writer.print("key:{s},value:{s},timestamp:{d},access_count:{d},compression:{s},tier:{s}", .{
             cache_data.key,
             cache_data.value,
             cache_data.metadata.timestamp,
             cache_data.metadata.access_count,
             @tagName(cache_data.metadata.compression),
             @tagName(cache_data.metadata.tier),
-        });
+        }) catch return error.SerializationFailed;
         
-        return result.toOwnedSlice();
+        return stream.getWritten();
     }
 };
 
