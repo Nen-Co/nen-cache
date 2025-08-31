@@ -10,6 +10,8 @@ const math = std.math;
 const StaticCache = @import("../memory/static_cache.zig").StaticCache;
 const StaticKVEntry = @import("../memory/static_cache.zig").StaticKVEntry;
 const StaticCacheTier = @import("../memory/static_cache.zig").StaticCacheTier;
+const MemoryPoolManager = @import("../memory/static_pools.zig").MemoryPoolManager;
+const StaticPoolEntry = @import("../memory/static_pools.zig").StaticPoolEntry;
 
 pub const EnhancedKVCache = struct {
     // 4-tier storage system (vs LMCache's 3-tier)
@@ -31,6 +33,9 @@ pub const EnhancedKVCache = struct {
     stats: CacheStats,
     allocator: mem.Allocator,
     
+    // Static memory pools for zero-allocation performance
+    memory_pools: *MemoryPoolManager,
+    
     pub fn init(allocator: mem.Allocator) !*EnhancedKVCache {
         var self = try allocator.create(EnhancedKVCache);
         
@@ -44,6 +49,10 @@ pub const EnhancedKVCache = struct {
         self.prefetch_predictor = try PrefetchPredictor.init(allocator);
         self.compression_engine = try CompressionEngine.init(allocator);
         self.p2p_manager = try P2PManager.init(allocator);
+        
+        // Initialize static memory pools for zero-allocation performance
+        self.memory_pools = try allocator.create(MemoryPoolManager);
+        self.memory_pools.* = try MemoryPoolManager.init();
         
         // Initialize stats
         self.stats = CacheStats.init();
@@ -60,6 +69,8 @@ pub const EnhancedKVCache = struct {
         self.prefetch_predictor.deinit();
         self.compression_engine.deinit();
         self.p2p_manager.deinit();
+        self.memory_pools.deinit();
+        self.allocator.destroy(self.memory_pools);
         self.allocator.destroy(self);
     }
     
@@ -498,3 +509,8 @@ pub const CacheStats = struct {
         }
     }
 };
+
+// Add method to get memory pool statistics
+pub fn getMemoryPoolStats(self: *EnhancedKVCache) @TypeOf(self.memory_pools.getOverallStats()) {
+    return self.memory_pools.getOverallStats();
+}

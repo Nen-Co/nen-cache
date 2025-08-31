@@ -62,6 +62,18 @@ pub fn build(b: *std.Build) void {
     const perf_step = b.step("perf", "Run performance tests");
     perf_step.dependOn(&run_perf_tests.step);
 
+    // Performance benchmark
+    const perf_bench = b.addTest(.{
+        .root_source_file = .{ .cwd_relative = "tests/performance_benchmark.zig" },
+        .target = target,
+        .optimize = optimize,
+    });
+    perf_bench.root_module.addImport("nencache", nencache_mod);
+
+    const run_perf_bench = b.addRunArtifact(perf_bench);
+    const perf_bench_step = b.step("perf-bench", "Run performance benchmark");
+    perf_bench_step.dependOn(&run_perf_bench.step);
+
     // Benchmarks
     const bench_exe = b.addExecutable(.{
         .name = "nencache-benchmark",
