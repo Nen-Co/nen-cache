@@ -1,7 +1,11 @@
-// NenCache: The LMCache Killer
+// NenCache: Building the Future of LLM Caching - Together
 // Main entry point and module exports
 
 const std = @import("std");
+
+// Import Nen ecosystem libraries
+const nen_io = @import("nen_io");
+const nen_json = @import("nen_json");
 
 // Export our enhanced KV cache
 pub const EnhancedKVCache = @import("cache/enhanced_kv_cache.zig").EnhancedKVCache;
@@ -23,6 +27,10 @@ pub const KVEntry = @import("memory/kv_cache.zig").KVEntry;
 pub const NodePool = @import("memory/pool.zig").NodePool;
 pub const EdgePool = @import("memory/pool.zig").EdgePool;
 pub const EmbeddingPool = @import("memory/pool.zig").EmbeddingPool;
+
+// Export Nen ecosystem libraries for convenience
+pub const NenIO = nen_io;
+pub const NenJSON = nen_json;
 
 // Main function for CLI usage
 pub fn main() !void {

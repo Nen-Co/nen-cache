@@ -4,6 +4,23 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    // Add Nen ecosystem dependencies using relative paths
+    const nen_io_dep = b.addModule("nen-io", .{
+        .root_source_file = .{ .cwd_relative = "../nen-io/src/lib.zig" },
+        .target = target,
+        .optimize = optimize,
+    });
+    
+    // nen-json has structural issues, using only nen-io for now
+    // const nen_json_dep = b.addModule("nen-json", .{
+    //     .root_source_file = .{ .cwd_relative = "src/vendor/nen-json/lib.zig" },
+    //     .target = target,
+    //     .optimize = optimize,
+    // });
+    
+    // Add nen-io as a dependency to nen-json to resolve the conflict
+    // nen_json_dep.addImport("nen-io", nen_io_dep);
+
     // Main NenCache library
     const lib = b.addStaticLibrary(.{
         .name = "nencache",
@@ -11,6 +28,11 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+    
+    // Add Nen ecosystem modules to the library
+    lib.root_module.addImport("nen_io", nen_io_dep);
+    // lib.root_module.addImport("nen_json", nen_json_dep);
+    
     b.installArtifact(lib);
 
     // NenCache module for other projects
@@ -45,6 +67,8 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     unit_tests.root_module.addImport("nencache", nencache_mod);
+    unit_tests.root_module.addImport("nen_io", nen_io_dep);
+    // unit_tests.root_module.addImport("nen_json", nen_json_dep);
 
     const run_unit_tests = b.addRunArtifact(unit_tests);
     const test_step = b.step("test", "Run unit tests");
