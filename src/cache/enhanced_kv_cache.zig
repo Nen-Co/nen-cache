@@ -483,7 +483,7 @@ pub const P2PManager = struct {
         _ = self; // Use self parameter to avoid warning
         // Create simple text representation using static buffer to avoid allocation
         var buffer: [512]u8 = undefined;
-        var stream = std.io.fixedBufferStream(&buffer);
+        var stream = std.Io.fixedBufferStream(&buffer);
         const writer = stream.writer();
         
         writer.print("key:{s},value:{s},timestamp:{d},access_count:{d},compression:{s},tier:{s}", .{
