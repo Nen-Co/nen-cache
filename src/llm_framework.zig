@@ -440,7 +440,7 @@ pub const Flow = struct {
     fn serializeNodeMetadata(self: *Flow, node: *const Node) ![]const u8 {
         // Use nen-json for efficient serialization
         var buffer: [2048]u8 = undefined;
-        var stream = std.Io.fixedBufferStream(&buffer);
+        var stream = std.io.fixedBufferStream(&buffer);
         const writer = stream.writer();
         
         try writer.print("{{\"id\":\"{s}\",\"type\":\"{s}\",\"state\":\"{s}\"}}", .{

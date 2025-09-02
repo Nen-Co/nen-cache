@@ -47,7 +47,7 @@ pub const BenchmarkResult = struct {
     }
     
     pub fn print(self: BenchmarkResult) void {
-        const stdout = std.Io.getStdOut().writer();
+        const stdout = std.io.getStdOut().writer();
         stdout.print("\n📊 {s} Benchmark Results ({s} Tier)\n", .{ self.operation, @tagName(self.tier) }) catch {};
         stdout.print("   Iterations: {d}\n", .{self.iterations}) catch {};
         stdout.print("   Total Time: {d} ns ({d:.2} ms)\n", .{ self.total_time_ns, @as(f64, @floatFromInt(self.total_time_ns)) / 1_000_000.0 }) catch {};
@@ -77,7 +77,7 @@ pub const BenchmarkSuite = struct {
     
     // Benchmark set operations
     pub fn benchmarkSet(self: *BenchmarkSuite) !void {
-        const stdout = std.Io.getStdOut().writer();
+        const stdout = std.io.getStdOut().writer();
         stdout.print("\n🚀 Benchmarking SET Operations...\n", .{}) catch {};
         
         for (self.config.value_sizes) |value_size| {
@@ -86,7 +86,7 @@ pub const BenchmarkSuite = struct {
     }
     
     fn benchmarkSetWithSize(self: *BenchmarkSuite, value_size: usize) !void {
-        const stdout = std.Io.getStdOut().writer();
+        const stdout = std.io.getStdOut().writer();
         stdout.print("   Testing value size: {d} bytes\n", .{value_size}) catch {};
         
         // Generate test data
@@ -129,7 +129,7 @@ pub const BenchmarkSuite = struct {
     
     // Benchmark get operations
     pub fn benchmarkGet(self: *BenchmarkSuite) !void {
-        const stdout = std.Io.getStdOut().writer();
+        const stdout = std.io.getStdOut().writer();
         stdout.print("\n🔍 Benchmarking GET Operations...\n", .{}) catch {};
         
         // First populate cache with data
@@ -141,7 +141,7 @@ pub const BenchmarkSuite = struct {
     }
     
     fn populateCacheForGet(self: *BenchmarkSuite) !void {
-        const stdout = std.Io.getStdOut().writer();
+        const stdout = std.io.getStdOut().writer();
         stdout.print("   Populating cache for GET benchmarks...\n", .{}) catch {};
         
         for (0..self.config.key_count) |i| {
@@ -158,7 +158,7 @@ pub const BenchmarkSuite = struct {
     }
     
     fn benchmarkGetWithSize(self: *BenchmarkSuite, value_size: usize) !void {
-        const stdout = std.Io.getStdOut().writer();
+        const stdout = std.io.getStdOut().writer();
         stdout.print("   Testing GET with value size: {d} bytes\n", .{value_size}) catch {};
         
         // Warmup
@@ -194,7 +194,7 @@ pub const BenchmarkSuite = struct {
     
     // Benchmark mixed operations (set + get)
     pub fn benchmarkMixed(self: *BenchmarkSuite) !void {
-        const stdout = std.Io.getStdOut().writer();
+        const stdout = std.io.getStdOut().writer();
         stdout.print("\n🔄 Benchmarking Mixed Operations (SET + GET)...\n", .{}) catch {};
         
         // Warmup
@@ -240,7 +240,7 @@ pub const BenchmarkSuite = struct {
     
     // Run all benchmarks
     pub fn runAll(self: *BenchmarkSuite) !void {
-        const stdout = std.Io.getStdOut().writer();
+        const stdout = std.io.getStdOut().writer();
         stdout.print("\n🎯 Starting NenCache Performance Benchmark Suite\n", .{}) catch {};
         stdout.print("=============================================\n", .{}) catch {};
         
@@ -253,7 +253,7 @@ pub const BenchmarkSuite = struct {
     
     // Print benchmark summary
     fn printSummary(self: *BenchmarkSuite) !void {
-        const stdout = std.Io.getStdOut().writer();
+        const stdout = std.io.getStdOut().writer();
         stdout.print("\n📈 Benchmark Summary\n", .{}) catch {};
         stdout.print("===================\n", .{}) catch {};
         
