@@ -35,12 +35,12 @@ jobs:
       - name: Run unit tests
         run: |
           set -euo pipefail
-          zig build test-unit
+          zig build test
       
-      - name: Run performance tests
-        run: |
-          set -euo pipefail
-          zig build test-performance
+      # - name: Run performance tests
+      #   run: |
+      #     set -euo pipefail
+      #     zig build perf
       
       - name: Build release binary
         run: |
@@ -83,12 +83,12 @@ jobs:
       - name: Run unit tests
         run: |
           set -euo pipefail
-          zig build test-unit
+          zig build test
       
-      - name: Run performance tests
-        run: |
-          set -euo pipefail
-          zig build test-performance
+      # - name: Run performance tests
+      #   run: |
+      #     set -euo pipefail
+      #     zig build perf
       
       - name: Build release binary
         run: |
@@ -128,11 +128,11 @@ jobs:
 
       - name: Run unit tests
         run: |
-          zig build test-unit
+          zig build test
       
       - name: Run performance tests
         run: |
-          zig build test-performance
+          zig build perf
       
       - name: Build release binary
         run: |

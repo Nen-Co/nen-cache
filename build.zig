@@ -84,7 +84,7 @@ pub fn build(b: *std.Build) void {
     // Performance tests
     const perf_tests = b.addTest(.{
         .root_module = b.createModule(.{
-            .root_source_file = b.path("tests/test_performance.zig"),
+            .root_source_file = b.path("tests/performance_benchmark.zig"),
             .target = target,
             .optimize = optimize,
         }),

@@ -67,12 +67,12 @@ pub const BenchmarkSuite = struct {
         return BenchmarkSuite{
             .cache = cache,
             .config = config,
-            .results = std.ArrayList(BenchmarkResult).init(testing.allocator),
+            .results = try std.ArrayList(BenchmarkResult).initCapacity(testing.allocator, 0),
         };
     }
     
-    pub fn deinit(self: *BenchmarkSuite) void {
-        self.results.deinit();
+    pub fn deinit(self: *BenchmarkSuite, allocator: std.mem.Allocator) void {
+        self.results.deinit(allocator);
     }
     
     // Benchmark set operations
