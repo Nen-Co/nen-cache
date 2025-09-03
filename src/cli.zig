@@ -1,4 +1,5 @@
 const std = @import("std");
+const builtin = @import("builtin");
 const nencache = @import("main.zig");
 const process = std.process;
 
@@ -7,6 +8,8 @@ pub const CLI = struct {
     
     allocator: std.mem.Allocator,
     cache: ?*nencache.EnhancedKVCache,
+    
+
     
     pub fn init(allocator: std.mem.Allocator) Self {
         return Self{
@@ -58,13 +61,24 @@ pub const CLI = struct {
         } else if (std.mem.eql(u8, command, "help") or std.mem.eql(u8, command, "--help") or std.mem.eql(u8, command, "-h")) {
             try self.showHelp();
         } else {
-            try std.io.getStdOut().writer().print("Unknown command: {s}\n", .{command});
+            const stdout_file = if (builtin.os.tag == .windows)
+                std.fs.File{ .handle = @as(std.os.windows.HANDLE, @ptrFromInt(1)) }
+            else
+                std.fs.File{ .handle = @as(std.posix.fd_t, 1) };
+            var buffer: [1024]u8 = undefined;
+            const stdout = stdout_file.writer(&buffer);
+            try stdout.print("Unknown command: {s}\n", .{command});
             try self.showHelp();
         }
     }
     
     fn showHelp(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout_file = if (builtin.os.tag == .windows)
+            std.fs.File{ .handle = @as(std.os.windows.HANDLE, @ptrFromInt(1)) }
+        else
+            std.fs.File{ .handle = @as(std.posix.fd_t, 1) };
+        var buffer: [1024]u8 = undefined;
+        const stdout = stdout_file.writer(&buffer);
         
         try stdout.writeAll("🚀 NenCache: Building the Future of LLM Caching - Together\n");
         try stdout.writeAll("==========================================================\n\n");
@@ -101,7 +115,7 @@ pub const CLI = struct {
     }
     
     fn runTests(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("🧪 Running NenCache tests...\n");
         
         // This would actually run the tests
@@ -109,7 +123,7 @@ pub const CLI = struct {
     }
     
     fn runPerformanceTests(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("⚡ Running performance tests...\n");
         
         // This would run performance tests
@@ -117,7 +131,7 @@ pub const CLI = struct {
     }
     
     fn runBenchmarks(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("📊 Running benchmarks...\n");
         
         // This would run benchmarks
@@ -125,7 +139,7 @@ pub const CLI = struct {
     }
     
     fn runLMCacheComparison(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("🏁 Running LMCache comparison...\n");
         
         // This would run LMCache comparison
@@ -133,7 +147,7 @@ pub const CLI = struct {
     }
     
     fn runBasicExample(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("📚 Running basic usage example...\n");
         
         // This would run the basic example
@@ -141,7 +155,7 @@ pub const CLI = struct {
     }
     
     fn runNenEcosystemTest(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("🔗 Running Nen ecosystem integration test...\n");
         
         // This would run the nen-test
@@ -149,7 +163,7 @@ pub const CLI = struct {
     }
     
     fn runLlamaIntegrationTest(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("🦙 Running Llama integration test...\n");
         
         // Run the actual llama test
@@ -160,7 +174,7 @@ pub const CLI = struct {
     }
     
     fn runPerformanceBenchmarks(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("📈 Running performance benchmarks...\n");
         
         // This would run performance benchmarks
@@ -168,7 +182,7 @@ pub const CLI = struct {
     }
     
     fn runNenDBIntegrationDemo(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("🔗 Running NenCache + NenDB integration demo...\n");
         
         // Run the NenDB integration demo
@@ -177,7 +191,7 @@ pub const CLI = struct {
     }
     
     fn showCacheStats(self: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("📊 Cache Statistics:\n");
         
         if (self.cache) |cache| {
@@ -190,7 +204,7 @@ pub const CLI = struct {
     }
     
     fn showMemoryInfo(self: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("💾 Memory Information:\n");
         
         if (self.cache) |cache| {
@@ -206,7 +220,7 @@ pub const CLI = struct {
     }
     
     fn showEcosystemStatus(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("🌐 Nen Ecosystem Status:\n");
         try stdout.writeAll("  ✅ nen-io: Integrated and working\n");
         try stdout.writeAll("  ⚠️  nen-json: Temporarily disabled (structural issues)\n");
@@ -216,7 +230,7 @@ pub const CLI = struct {
     }
     
     fn runComprehensiveBenchmarks(_: *Self) !void {
-        const stdout = std.io.getStdOut().writer();
+        const stdout = Self.getStdout();
         try stdout.writeAll("🏆 Running full stack Nen ecosystem demo...\n");
         
         // Run the full stack demo
