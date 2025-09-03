@@ -10,14 +10,14 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    
+
     // nen-json has structural issues, using only nen-io for now
     // const nen_json_dep = b.addModule("nen-json", .{
     //     .root_source_file = b.path("src/vendor/nen-json/lib.zig"),
     //     .target = target,
     //     .optimize = optimize,
     // });
-    
+
     // Add nen-io as a dependency to nen-json to resolve the conflict
     // nen_json_dep.addImport("nen-io", nen_io_dep);
 
@@ -30,11 +30,11 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         }),
     });
-    
+
     // Add Nen ecosystem modules to the library
     lib.root_module.addImport("nen_io", nen_io_dep);
     // lib.root_module.addImport("nen_json", nen_json_dep);
-    
+
     b.installArtifact(lib);
 
     // NenCache module for other projects
@@ -149,7 +149,7 @@ pub fn build(b: *std.Build) void {
     // const run_basic_example = b.addRunArtifact(basic_example);
     // const basic_example_step = b.step("basic-example", "Run basic usage example");
     // basic_example_step.dependOn(&run_basic_example.step);
-    
+
     // Full stack demo - commented out for now
     // const full_stack_demo = b.addExecutable(.{
     //     .name = "full-stack-demo",
@@ -163,7 +163,7 @@ pub fn build(b: *std.Build) void {
     // const run_full_stack_demo = b.addRunArtifact(full_stack_demo);
     // const full_stack_demo_step = b.step("full-stack-demo", "Run full stack Nen ecosystem demo");
     // full_stack_demo_step.dependOn(&run_full_stack_demo.step);
-    
+
     // NenDB integration demo - commented out for now
     // const nendb_demo = b.addExecutable(.{
     //     .name = "nendb-demo",
@@ -177,7 +177,7 @@ pub fn build(b: *std.Build) void {
     // const run_nendb_demo = b.addRunArtifact(nendb_demo);
     // const nendb_demo_step = b.step("nendb-demo", "Run NenCache + NenDB integration demo");
     // nendb_demo_step.dependOn(&run_nendb_demo.step);
-    
+
     // NenDB cache layer demo - commented out for now
     // const nendb_cache_demo = b.addExecutable(.{
     //     .name = "nendb-cache-demo",
@@ -205,7 +205,7 @@ pub fn build(b: *std.Build) void {
     // const run_nen_test = b.addRunArtifact(nen_test);
     // const nen_test_step = b.step("nen-test", "Run Nen ecosystem integration test");
     // nen_test_step.dependOn(&run_nen_test.step);
-    
+
     // Llama integration test - commented out for now
     // const llama_test = b.addExecutable(.{
     //     .name = "llama-test",
