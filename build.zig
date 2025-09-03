@@ -5,11 +5,11 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     // Add Nen ecosystem dependencies using relative paths
-    // const nen_io_dep = b.createModule(.{
-    //     .root_source_file = b.path("../nen-io/src/lib.zig"),
-    //     .target = target,
-    //     .optimize = optimize,
-    // });
+    const nen_io_dep = b.createModule(.{
+        .root_source_file = b.path("../nen-io/src/lib.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
 
     // nen-json has structural issues, using only nen-io for now
     // const nen_json_dep = b.addModule("nen-json", .{
@@ -32,7 +32,7 @@ pub fn build(b: *std.Build) void {
     });
 
     // Add Nen ecosystem modules to the library
-    // lib.root_module.addImport("nen_io", nen_io_dep);
+    lib.root_module.addImport("nen_io", nen_io_dep);
     // lib.root_module.addImport("nen_json", nen_json_dep);
 
     b.installArtifact(lib);
@@ -53,7 +53,7 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         }),
     });
-    // exe.root_module.addImport("nen_io", nen_io_dep);
+    exe.root_module.addImport("nen_io", nen_io_dep);
     b.installArtifact(exe);
 
     // Run command
@@ -74,7 +74,7 @@ pub fn build(b: *std.Build) void {
         }),
     });
     unit_tests.root_module.addImport("nencache", nencache_mod);
-    // unit_tests.root_module.addImport("nen_io", nen_io_dep);
+    unit_tests.root_module.addImport("nen_io", nen_io_dep);
     // unit_tests.root_module.addImport("nen_json", nen_json_dep);
 
     const run_unit_tests = b.addRunArtifact(unit_tests);
