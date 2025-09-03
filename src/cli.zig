@@ -116,7 +116,7 @@ pub const CLI = struct {
             std.fs.File{ .handle = @as(std.os.windows.HANDLE, @ptrFromInt(1)) }
         else
             std.fs.File{ .handle = @as(std.posix.fd_t, 1) };
-        
+
         try stdout_file.writeAll("🧪 Running NenCache tests...\n");
 
         // This would actually run the tests
