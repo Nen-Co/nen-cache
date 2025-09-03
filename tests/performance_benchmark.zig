@@ -298,7 +298,7 @@ test "Performance Benchmark Framework" {
     defer cache.deinit();
 
     var suite = try BenchmarkSuite.init(cache, config);
-    defer suite.deinit();
+    defer suite.deinit(allocator);
 
     try testing.expectEqual(@as(usize, 0), suite.results.items.len);
 }

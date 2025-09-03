@@ -85,7 +85,7 @@ pub const NodePool = struct {
         const buf = try file.reader().readAllAlloc(std.heap.page_allocator, file_size);
         defer std.heap.page_allocator.free(buf);
         for (0..count) |i| {
-            self.nodes[self.next] = std.mem.bytesAsValue(Node, buf[i*@sizeOf(Node)..][0..@sizeOf(Node)]).*;
+            self.nodes[self.next] = std.mem.bytesAsValue(Node, buf[i * @sizeOf(Node) ..][0..@sizeOf(Node)]).*;
             self.next += 1;
         }
     }
@@ -153,7 +153,7 @@ pub const EdgePool = struct {
         const buf = try file.reader().readAllAlloc(std.heap.page_allocator, file_size);
         defer std.heap.page_allocator.free(buf);
         for (0..count) |i| {
-            self.edges[self.next] = std.mem.bytesAsValue(Edge, buf[i*@sizeOf(Edge)..][0..@sizeOf(Edge)]).*;
+            self.edges[self.next] = std.mem.bytesAsValue(Edge, buf[i * @sizeOf(Edge) ..][0..@sizeOf(Edge)]).*;
             self.next += 1;
         }
     }
@@ -221,11 +221,11 @@ pub const EmbeddingPool = struct {
         const buf = try file.reader().readAllAlloc(std.heap.page_allocator, file_size);
         defer std.heap.page_allocator.free(buf);
         for (0..count) |i| {
-            self.embeddings[self.next] = std.mem.bytesAsValue(Embedding, buf[i*@sizeOf(Embedding)..][0..@sizeOf(Embedding)]).*;
+            self.embeddings[self.next] = std.mem.bytesAsValue(Embedding, buf[i * @sizeOf(Embedding) ..][0..@sizeOf(Embedding)]).*;
             self.next += 1;
         }
     }
-}; 
+};
 
 pub fn wal_append_node(node: Node, dir: []const u8) !void {
     const file_path = try std.fmt.allocPrint(std.heap.page_allocator, "{s}/nodes.wal", .{dir});
@@ -249,4 +249,4 @@ pub fn wal_append_embedding(emb: Embedding, dir: []const u8) !void {
     var file = try std.fs.cwd().createFile(file_path, .{ .truncate = false });
     defer file.close();
     try file.writer().writeAll(std.mem.sliceAsBytes(&[1]Embedding{emb}));
-} 
+}

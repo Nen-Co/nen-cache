@@ -10,7 +10,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    
+
     const nen_json_dep = b.createModule(.{
         .root_source_file = b.path("src/stubs/nen_json.zig"),
         .target = target,

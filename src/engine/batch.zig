@@ -102,7 +102,7 @@ pub const BatchEngine = struct {
         // Add properties as string
         var prop_end: usize = 0;
         while (prop_end < node.props.len and node.props[prop_end] != 0) : (prop_end += 1) {}
-        const out2 = try std.fmt.bufPrint(buf[written..], "{s}\n", .{ n.props[0..prop_end] });
+        const out2 = try std.fmt.bufPrint(buf[written..], "{s}\n", .{n.props[0..prop_end]});
         written += out2.len;
         // Add neighbors
         var found = false;
@@ -151,4 +151,4 @@ pub const BatchEngine = struct {
         var file = try std.fs.cwd().createFile(file_path, .{ .truncate = true, .read = false });
         file.close();
     }
-}; 
+};

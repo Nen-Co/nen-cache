@@ -10,12 +10,12 @@ pub const File = struct {
         _ = buffer;
         return 0;
     }
-    
+
     pub fn writeAll(self: *@This(), data: []const u8) !void {
         _ = self;
         _ = data;
     }
-    
+
     pub fn sync(self: *@This()) !void {
         _ = self;
     }
@@ -33,7 +33,7 @@ pub const Performance = struct {
     pub fn startTimer(self: *@This()) void {
         _ = self;
     }
-    
+
     pub fn endTimer(self: *@This()) u64 {
         _ = self;
         return 0;
@@ -58,7 +58,7 @@ pub const Log = struct {
         _ = self;
         _ = message;
     }
-    
+
     pub fn logError(self: *@This(), message: []const u8) void {
         _ = self;
         _ = message;
@@ -72,27 +72,27 @@ pub const batching = struct {
             _ = allocator;
             return MemoryBatch{};
         }
-        
+
         pub fn deinit(self: *@This()) void {
             _ = self;
         }
-        
+
         pub fn add(self: *@This(), data: []const u8) !void {
             _ = self;
             _ = data;
         }
     };
-    
+
     pub const NetworkBatch = struct {
         pub fn init(allocator: std.mem.Allocator) !@This() {
             _ = allocator;
             return NetworkBatch{};
         }
-        
+
         pub fn deinit(self: *@This()) void {
             _ = self;
         }
-        
+
         pub fn send(self: *@This(), data: []const u8) !void {
             _ = self;
             _ = data;
@@ -140,12 +140,12 @@ pub const StreamingJsonParser = struct {
     pub fn init() @This() {
         return StreamingJsonParser{};
     }
-    
+
     pub const Stats = struct {
         bytes_processed: usize = 0,
         objects_parsed: usize = 0,
     };
-    
+
     pub fn getStats(self: *@This()) Stats {
         _ = self;
         return Stats{};

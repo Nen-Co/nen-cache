@@ -9,11 +9,11 @@ pub const Parser = struct {
         _ = allocator;
         return Parser{};
     }
-    
+
     pub fn deinit(self: *@This()) void {
         _ = self;
     }
-    
+
     pub fn parse(self: *@This(), json: []const u8) !void {
         _ = self;
         _ = json;
@@ -25,11 +25,11 @@ pub const Serializer = struct {
         _ = allocator;
         return Serializer{};
     }
-    
+
     pub fn deinit(self: *@This()) void {
         _ = self;
     }
-    
+
     pub fn serialize(self: *@This(), data: anytype) ![]const u8 {
         _ = self;
         _ = data;
@@ -41,7 +41,7 @@ pub const Validator = struct {
     pub fn init() @This() {
         return Validator{};
     }
-    
+
     pub fn validate(self: *@This(), json: []const u8) !void {
         _ = self;
         _ = json;
