@@ -3,8 +3,9 @@
 [![Zig Version](https://img.shields.io/badge/Zig-0.14.1+-orange.svg)](https://ziglang.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/Nen-Co/nen-cache)
+[![DOD](https://img.shields.io/badge/Architecture-Data--Oriented--Design-FF6B6B)](docs/DATA_ORIENTED_DESIGN.md)
 
-**NenCache** is a high-performance, zero-allocation LLM caching system built with the Nen ecosystem. It provides sub-microsecond latency, 100K+ operations per second, and seamless integration with NenDB for graph database acceleration.
+**NenCache** is a high-performance, zero-allocation LLM caching system built with **Data-Oriented Design (DOD)** and the Nen ecosystem. It provides sub-microsecond latency, 100K+ operations per second, and seamless integration with NenDB for graph database acceleration.
 
 ## 🌟 Key Features
 

@@ -15,6 +15,12 @@ pub const CacheData = @import("cache/enhanced_kv_cache.zig").CacheData;
 pub const CacheMetadata = @import("cache/enhanced_kv_cache.zig").CacheMetadata;
 pub const CompressionAlgorithm = @import("cache/enhanced_kv_cache.zig").CompressionAlgorithm;
 
+// Data-Oriented Design (DOD) modules
+pub const dod_config = @import("dod_config.zig");
+pub const dod_layout = @import("dod_layout.zig");
+pub const dod_prefetch = @import("dod_prefetch.zig");
+pub const dod_simd = @import("dod_simd.zig");
+
 // Export memory pool types
 pub const MemoryPoolStats = @import("memory/static_pools.zig").MemoryPoolStats;
 

@@ -598,6 +598,23 @@ pub fn build(b: *std.Build) void {
     const chat_now_step = b.step("chat-now", "Run CHAT NOW - STAYS OPEN for real typing and chatting!");
     chat_now_step.dependOn(&run_chat_now.step);
 
+    // DOD Demo
+    const dod_demo = b.addExecutable(.{
+        .name = "dod-demo",
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("examples/dod_demo.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
+    });
+    dod_demo.root_module.addImport("nencache", nencache_mod);
+    dod_demo.root_module.addImport("nen_io", nen_io_dep);
+    dod_demo.root_module.addImport("nen_json", nen_json_dep);
+
+    const run_dod_demo = b.addRunArtifact(dod_demo);
+    const dod_demo_step = b.step("dod-demo", "Run Data-Oriented Design demo");
+    dod_demo_step.dependOn(&run_dod_demo.step);
+
     // NenDB cache layer demo - commented out for now
     // const nendb_cache_demo = b.addExecutable(.{
     //     .name = "nendb-cache-demo",
