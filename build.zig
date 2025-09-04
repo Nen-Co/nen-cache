@@ -615,6 +615,74 @@ pub fn build(b: *std.Build) void {
     const dod_demo_step = b.step("dod-demo", "Run Data-Oriented Design demo");
     dod_demo_step.dependOn(&run_dod_demo.step);
 
+    // DOD Interactive Chatbot
+    const dod_interactive_chatbot = b.addExecutable(.{
+        .name = "dod-interactive-chatbot",
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("examples/dod_interactive_chatbot.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
+    });
+    dod_interactive_chatbot.root_module.addImport("nencache", nencache_mod);
+    dod_interactive_chatbot.root_module.addImport("nen_io", nen_io_dep);
+    dod_interactive_chatbot.root_module.addImport("nen_json", nen_json_dep);
+
+    const run_dod_interactive_chatbot = b.addRunArtifact(dod_interactive_chatbot);
+    const dod_interactive_chatbot_step = b.step("dod-interactive-chatbot", "Run DOD Interactive Chatbot");
+    dod_interactive_chatbot_step.dependOn(&run_dod_interactive_chatbot.step);
+
+    // DOD Working Demo
+    const dod_working_demo = b.addExecutable(.{
+        .name = "dod-working-demo",
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("examples/dod_working_demo.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
+    });
+    dod_working_demo.root_module.addImport("nencache", nencache_mod);
+    dod_working_demo.root_module.addImport("nen_io", nen_io_dep);
+    dod_working_demo.root_module.addImport("nen_json", nen_json_dep);
+
+    const run_dod_working_demo = b.addRunArtifact(dod_working_demo);
+    const dod_working_demo_step = b.step("dod-working-demo", "Run DOD Working Demo");
+    dod_working_demo_step.dependOn(&run_dod_working_demo.step);
+
+    // Minimal DOD Test
+    const minimal_dod_test = b.addExecutable(.{
+        .name = "minimal-dod-test",
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("examples/minimal_dod_test.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
+    });
+    minimal_dod_test.root_module.addImport("nencache", nencache_mod);
+    minimal_dod_test.root_module.addImport("nen_io", nen_io_dep);
+    minimal_dod_test.root_module.addImport("nen_json", nen_json_dep);
+
+    const run_minimal_dod_test = b.addRunArtifact(minimal_dod_test);
+    const minimal_dod_test_step = b.step("minimal-dod-test", "Run Minimal DOD Test");
+    minimal_dod_test_step.dependOn(&run_minimal_dod_test.step);
+
+    // Simple DOD Test
+    const simple_dod_test = b.addExecutable(.{
+        .name = "simple-dod-test",
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("examples/simple_dod_test.zig"),
+            .target = target,
+            .optimize = optimize,
+        }),
+    });
+    simple_dod_test.root_module.addImport("nencache", nencache_mod);
+    simple_dod_test.root_module.addImport("nen_io", nen_io_dep);
+    simple_dod_test.root_module.addImport("nen_json", nen_json_dep);
+
+    const run_simple_dod_test = b.addRunArtifact(simple_dod_test);
+    const simple_dod_test_step = b.step("simple-dod-test", "Run Simple DOD Test");
+    simple_dod_test_step.dependOn(&run_simple_dod_test.step);
+
     // NenDB cache layer demo - commented out for now
     // const nendb_cache_demo = b.addExecutable(.{
     //     .name = "nendb-cache-demo",
