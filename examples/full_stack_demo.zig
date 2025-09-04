@@ -2,20 +2,21 @@ const std = @import("std");
 const nencache = @import("nencache");
 
 pub fn main() !void {
-    const stdout = std.io.getStdOut().writer();
+    // Temporarily disable output to test core functionality
+    // const stdout = std.io.getStdOut().writer();
 
-    try stdout.writeAll("🚀 Full Stack Nen Ecosystem Demo\n");
-    try stdout.writeAll("================================\n\n");
+    // try stdout.writeAll("🚀 Full Stack Nen Ecosystem Demo\n");
+    // try stdout.writeAll("================================\n\n");
 
-    try stdout.writeAll("This example demonstrates:\n");
-    try stdout.writeAll("  • NenCache with Nen ecosystem integration\n");
-    try stdout.writeAll("  • Simulated NenDB integration\n");
-    try stdout.writeAll("  • LLM workload caching patterns\n");
-    try stdout.writeAll("  • P2P sharing between instances\n");
-    try stdout.writeAll("  • Memory pool optimization\n\n");
+    // try stdout.writeAll("This example demonstrates:\n");
+    // try stdout.writeAll("  • NenCache with Nen ecosystem integration\n");
+    // try stdout.writeAll("  • Simulated NenDB integration\n");
+    // try stdout.writeAll("  • LLM workload caching patterns\n");
+    // try stdout.writeAll("  • P2P sharing between instances\n");
+    // try stdout.writeAll("  • Memory pool optimization\n\n");
 
     // Initialize the cache
-    try stdout.writeAll("1️⃣ Initializing NenCache with Nen ecosystem...\n");
+    // try stdout.writeAll("1️⃣ Initializing NenCache with Nen ecosystem...\n");
     const allocator = std.heap.page_allocator;
     var cache = try nencache.EnhancedKVCache.init(allocator);
     defer cache.deinit();
